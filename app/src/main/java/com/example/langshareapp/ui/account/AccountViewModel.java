@@ -1,4 +1,4 @@
-package com.example.langshareapp.ui.dashboard;
+package com.example.langshareapp.ui.account;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.example.langshareapp.ui.dashboard.AccountFragment"
+        android:name="com.example.langshareapp.ui.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 

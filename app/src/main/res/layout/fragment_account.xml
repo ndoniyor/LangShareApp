@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.account.AccountFragment">
 
-    <com.example.langshareapp.ui.widgets.ProfileIcon
-        android:id="@+id/profile_icon"
+    <TextView
+        android:id="@+id/helloText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/option_menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/option_menu"/>
-        <!-->TODO: Change width to be 66% of parent<-->
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24sp"
+        />
     <com.example.langshareapp.ui.widgets.OptionMenu
         android:id="@+id/option_menu"
         android:layout_width="match_parent"

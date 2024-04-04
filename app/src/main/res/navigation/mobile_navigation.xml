@@ -15,6 +15,25 @@
         android:id="@+id/navigation_account"
         android:name="com.example.langshareapp.ui.account.AccountFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment"/>
+        />
+        <action
+            android:id="@+id/action_accountFragment_to_landingPage"
+            app:destination="@id/landingPage"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.langshareapp.ui.account.editProfile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <activity
+        android:id="@+id/landingPage"
+        android:name="com.example.langshareapp.ui.landing.LandingPage"
+        android:label="Landing Page" />
 
 </navigation>

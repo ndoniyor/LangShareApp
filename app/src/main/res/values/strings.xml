@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">LangShareApp</string>
+    <string name="app_name">LangShare</string>
     <string name="title_home">Home</string>
     <string name="title_account">Account</string>
     <string name="view_profile">View Profile</string>
     <string name="account_settings">Account Settings</string>
     <string name="logout">Logout</string>
+    <string name="welcome_to_our_app">Welcome to our app!</string>
+    <string name="login">Login</string>
 </resources>

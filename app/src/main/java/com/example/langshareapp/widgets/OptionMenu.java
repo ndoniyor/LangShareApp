@@ -1,4 +1,4 @@
-package com.example.langshareapp.ui.widgets;
+package com.example.langshareapp.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;

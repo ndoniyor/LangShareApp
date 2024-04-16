@@ -1,4 +1,4 @@
-package com.example.langshareapp.ui.landing;
+package com.example.langshareapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +11,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.langshareapp.MainActivity;
 import com.example.langshareapp.R;
+import com.example.langshareapp.repositories.FirebaseAuthRepository;
+import com.example.langshareapp.repositories.FirebaseFirestoreRepository;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
 import java.util.List;
 
-public class LandingPage extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+public class LandingPageActivity extends AppCompatActivity {
+    private FirebaseAuthRepository authRepository;
+    private FirebaseUser user;
+    private FirebaseFirestoreRepository firestoreRepository;
     private ActivityResultLauncher<Intent> signInLauncher;
     private Button loginButton;
 
@@ -30,7 +36,9 @@ public class LandingPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
-        mAuth = FirebaseAuth.getInstance();
+        firestoreRepository = FirebaseFirestoreRepository.getInstance();
+        authRepository = FirebaseAuthRepository.getInstance();
+
         loginButton = findViewById(R.id.login_button);
 
         signInLauncher = registerForActivityResult(
@@ -42,9 +50,8 @@ public class LandingPage extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.i("MainActivity", "Current user: " + currentUser);
-        updateUI(currentUser);
+        user = authRepository.getCurrentUser();
+        updateUI(user);
 
         loginButton.setOnClickListener(v -> {
             List<AuthUI.IdpConfig> providers = Collections.singletonList(
@@ -60,15 +67,24 @@ public class LandingPage extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            firestoreRepository.getUserByMAuthId(currentUser.getUid(), user -> {
+                Log.i("Authlog", "User from firestore: " + user);
+                Intent intent;
+                if (user == null) {
+                    intent = new Intent(this, SignUpActivity.class);
+                } else {
+                    intent = new Intent(this, MainActivity.class);
+                }
+                Log.i("Authlog", "Starting activity: " + intent);
+                startActivity(intent);
+                finish();
+            });
         }
     }
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
-            FirebaseUser user = mAuth.getCurrentUser();
+            user = authRepository.getCurrentUser();
             updateUI(user);
         } else {
             Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show();

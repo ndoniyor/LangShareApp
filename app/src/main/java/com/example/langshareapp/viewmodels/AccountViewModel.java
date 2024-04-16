@@ -1,16 +1,16 @@
-package com.example.langshareapp.ui.account.editProfile;
+package com.example.langshareapp.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class EditProfileViewModel extends ViewModel {
+public class AccountViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public EditProfileViewModel() {
+    public AccountViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is edit profile fragment");
+        mText.setValue("This is dashboard fragment");
     }
 
     public LiveData<String> getText() {

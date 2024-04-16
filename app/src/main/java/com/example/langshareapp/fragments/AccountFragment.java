@@ -1,4 +1,4 @@
-package com.example.langshareapp.ui.account;
+package com.example.langshareapp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,8 @@ import androidx.navigation.Navigation;
 
 import com.example.langshareapp.R;
 import com.example.langshareapp.databinding.FragmentAccountBinding;
-import com.example.langshareapp.ui.widgets.OptionMenu;
+import com.example.langshareapp.viewmodels.AccountViewModel;
+import com.example.langshareapp.widgets.OptionMenu;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 

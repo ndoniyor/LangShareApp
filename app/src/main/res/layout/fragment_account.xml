@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.AccountFragment">
+    tools:context=".fragments.AccountFragment">
 
     <TextView
         android:id="@+id/helloText"
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="24sp"
         />
-    <com.example.langshareapp.ui.widgets.OptionMenu
+    <com.example.langshareapp.widgets.OptionMenu
         android:id="@+id/option_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

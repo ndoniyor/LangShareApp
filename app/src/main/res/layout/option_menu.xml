@@ -21,5 +21,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_profile_button" />
+    <Button
+        android:id="@+id/chat_activity"
+        android:layout_height="match_parent"
+        android:layout_width="200dp"
+        android:text="Chat Activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logout_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

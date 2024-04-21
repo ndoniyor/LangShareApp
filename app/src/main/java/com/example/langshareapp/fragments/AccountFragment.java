@@ -1,5 +1,6 @@
 package com.example.langshareapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.langshareapp.R;
+import com.example.langshareapp.activities.ChatActivity;
 import com.example.langshareapp.databinding.FragmentAccountBinding;
 import com.example.langshareapp.viewmodels.AccountViewModel;
 import com.example.langshareapp.widgets.OptionMenu;
@@ -56,6 +58,16 @@ public class AccountFragment extends Fragment {
                         });
             }
         });
+
+        optionMenu.chatActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
+                startActivity(chatIntent);
+            }
+        });
+
+
 
         return root;
     }

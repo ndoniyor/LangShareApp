@@ -28,6 +28,9 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

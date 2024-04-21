@@ -3,7 +3,7 @@ package com.example.langshareapp.utils;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,33 +19,38 @@ public class LangShareUser {
     private List<String> languagesLearning;
     private List<String> languagesKnown;
 
-    public LangShareUser(String authId, String fullName, String email, String bio, LocalDate dob, LocalDate createdAt,List<String> languagesLearning,List<String> languagesKnown) {
+    public LangShareUser(String authId, String fullName, String email, String bio, LocalDate dob, LocalDate createdAt, List<String> languagesLearning, List<String> languagesKnown) {
         this.authId = authId;
         this.fullName = fullName;
         this.email = email;
         this.bio = bio;
         this.dob = dob;
         this.createdAt = createdAt;
-        this.languagesLearning =  languagesLearning;
-        this.languagesKnown =  languagesKnown;
+        this.languagesLearning = languagesLearning;
+        this.languagesKnown = languagesKnown;
     }
 
     public static LangShareUser fromDocument(DocumentSnapshot document) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return new LangShareUser(
                 document.getString("auth_id"),
                 document.getString("full_name"),
                 document.getString("email"),
                 document.getString("bio"),
-                document.getDate("dob").toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate(),
-                document.getDate("created_at").toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate(),
-                document.get("languages_learning", List.class),
-                document.get("languages_known", List.class)
+                LocalDate.parse(document.getString("dob")),
+                LocalDate.parse(document.getString("created_at")),
+                (List<String>) document.get("languages_learning"),
+                (List<String>) document.get("languages_known")
 
         );
+    }
+
+    public static List<LangShareUser> fromDocumentList(List<DocumentSnapshot> documents) {
+        List<LangShareUser> users = new ArrayList<>();
+        for (DocumentSnapshot document : documents) {
+            users.add(fromDocument(document));
+        }
+        return users;
     }
 
     public String getAuthId() {

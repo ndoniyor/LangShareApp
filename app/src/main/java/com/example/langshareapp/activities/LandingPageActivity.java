@@ -16,17 +16,14 @@ import com.example.langshareapp.repositories.FirebaseFirestoreRepository;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
 import java.util.List;
 
 public class LandingPageActivity extends AppCompatActivity {
     private FirebaseAuthRepository authRepository;
-    private FirebaseUser user;
+    private FirebaseUser currentUser;
     private FirebaseFirestoreRepository firestoreRepository;
     private ActivityResultLauncher<Intent> signInLauncher;
     private Button loginButton;
@@ -50,8 +47,8 @@ public class LandingPageActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        user = authRepository.getCurrentUser();
-        updateUI(user);
+        currentUser = authRepository.getCurrentUser();
+        updateUI(currentUser);
 
         loginButton.setOnClickListener(v -> {
             List<AuthUI.IdpConfig> providers = Collections.singletonList(
@@ -84,8 +81,8 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         if (result.getResultCode() == RESULT_OK) {
-            user = authRepository.getCurrentUser();
-            updateUI(user);
+            currentUser = authRepository.getCurrentUser();
+            updateUI(currentUser);
         } else {
             Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show();
         }

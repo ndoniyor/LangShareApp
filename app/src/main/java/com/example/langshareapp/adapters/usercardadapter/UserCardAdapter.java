@@ -9,17 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.langshareapp.R;
+import com.example.langshareapp.repositories.FirebaseAuthRepository;
 import com.example.langshareapp.utils.LangShareUser;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
-public class UserCardAdapter extends RecyclerView.Adapter<UserCardViewHolder>{
+public class UserCardAdapter extends RecyclerView.Adapter<UserCardViewHolder> {
     private List<LangShareUser> userFeed;
+    private String senderId;
+    private FirebaseAuthRepository authRepository;
 
     public UserCardAdapter(List<LangShareUser> userFeed) {
         this.userFeed = userFeed;
+        authRepository = FirebaseAuthRepository.getInstance();
+        senderId = authRepository.getCurrentUser().getUid();
     }
 
     @NonNull
@@ -34,15 +39,20 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardViewHolder>{
         Log.i("UserCardAdapter", "onBindViewHolder called");
         LangShareUser user = userFeed.get(position);
         String name = user.getFullName();
+        String receiverId = user.getAuthId();
         int age = Period.between(user.getDob(), LocalDate.now()).getYears();
         String bio = user.getBio();
-        String languagesLearning = user.getLanguagesLearning().toString();
-        String languagesKnown = user.getLanguagesKnown().toString();
-        holder.bind(name + ", " + age, bio, languagesLearning, languagesKnown);
+        holder.bind(name + ", " + age, bio, user.getLanguagesLearning(), user.getLanguagesKnown(), senderId, receiverId);
     }
 
     @Override
     public int getItemCount() {
         return userFeed != null ? userFeed.size() : 0;
+    }
+
+    public void updateData(List<LangShareUser> newUserList) {
+        userFeed.clear();
+        userFeed.addAll(newUserList);
+        notifyDataSetChanged();
     }
 }

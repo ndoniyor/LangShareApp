@@ -34,6 +34,5 @@ public class OptionMenu extends LinearLayout {
 
         editProfileButton = findViewById(R.id.edit_profile_button);
         logoutButton = findViewById(R.id.logout_button);
-        chatActivityButton = findViewById(R.id.chat_activity);
     }
 }

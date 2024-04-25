@@ -9,7 +9,13 @@
         android:id="@+id/navigation_home"
         android:name="com.example.langshareapp.fragments.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+            tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_chat_history"
+        android:name="com.example.langshareapp.fragments.ChatHistoryFragment"
+        android:label="@string/title_chats"
+        tools:layout="@layout/fragment_chat_history" />
 
     <fragment
         android:id="@+id/navigation_account"
@@ -19,7 +25,6 @@
         <action
             android:id="@+id/action_accountFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment"/>
-        />
         <action
             android:id="@+id/action_accountFragment_to_landingPage"
             app:destination="@id/landingPage"/>

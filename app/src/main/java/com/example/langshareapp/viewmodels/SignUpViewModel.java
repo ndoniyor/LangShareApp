@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SignUpViewModel extends ViewModel {
@@ -36,7 +37,7 @@ public class SignUpViewModel extends ViewModel {
         Log.i("SignUpViewModel", String.format("saveUser: %s, %s, %s, %s, %s", fullName, dob, bio, languagesLearning, languagesKnown));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate parsedDob = LocalDate.parse(dob, formatter);
-        LangShareUser newUser = new LangShareUser(user.getUid(), fullName, user.getEmail(), bio, parsedDob, LocalDate.now(), languagesLearning, languagesKnown);
+        LangShareUser newUser = new LangShareUser(user.getUid(), fullName, user.getEmail(), bio, parsedDob, LocalDate.now(), languagesLearning, languagesKnown, new ArrayList<>());
 
         firestoreRepository.saveUser(newUser, status -> saveUserStatus.postValue(status));
     }

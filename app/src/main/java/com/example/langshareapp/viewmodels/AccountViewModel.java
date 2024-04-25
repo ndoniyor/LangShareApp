@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.langshareapp.repositories.FirebaseFirestoreRepository;
+import com.example.langshareapp.utils.LangShareUser;
+
 public class AccountViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private FirebaseFirestoreRepository firebaseFirestoreRepository;
+    private MutableLiveData<LangShareUser> user = new MutableLiveData<>();
 
     public AccountViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        firebaseFirestoreRepository = FirebaseFirestoreRepository.getInstance();
+        firebaseFirestoreRepository.getCurrentUser(user::setValue);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<LangShareUser> getUser() {
+        return user;
     }
 }

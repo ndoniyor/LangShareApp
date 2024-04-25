@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import com.example.langshareapp.R;
 import com.example.langshareapp.activities.ChatActivity;
 import com.example.langshareapp.databinding.FragmentAccountBinding;
+import com.example.langshareapp.utils.LangShareUser;
 import com.example.langshareapp.viewmodels.AccountViewModel;
 import com.example.langshareapp.widgets.OptionMenu;
 import com.firebase.ui.auth.AuthUI;
@@ -24,19 +25,21 @@ import com.google.firebase.auth.FirebaseAuth;
 public class AccountFragment extends Fragment {
 
     private FragmentAccountBinding binding;
+    private LangShareUser user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AccountViewModel accountViewModel =
-                new ViewModelProvider(this).get(AccountViewModel.class);
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        AccountViewModel accountViewModel = new AccountViewModel();
 
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         TextView textView = binding.helloText;
-        textView.setText("Hello, " + mAuth.getCurrentUser().getDisplayName() + "!");
+
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+                this.user = user;
+                textView.setText("Hello, " + user.getFullName() + "!");
+            }
+        );
 
         OptionMenu optionMenu = binding.optionMenu;
         optionMenu.editProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -58,16 +61,6 @@ public class AccountFragment extends Fragment {
                         });
             }
         });
-
-        optionMenu.chatActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
-                startActivity(chatIntent);
-            }
-        });
-
-
 
         return root;
     }

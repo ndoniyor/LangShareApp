@@ -9,7 +9,9 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -99,6 +101,34 @@ public class FirebaseFirestoreRepository {
         }
     }
 
+    public void updateUser(LangShareUser user, UserSavedCallback callback) {
+        try {
+            usersCollection
+                    .whereEqualTo("auth_id", user.getAuthId())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().update(user.toMap())
+                                        .addOnSuccessListener(aVoid -> {
+                                            Log.i("FirestoreRepo", "User updated");
+                                            callback.onCallback(true);
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e("FirestoreRepo", "Error updating user", e);
+                                            callback.onCallback(false);
+                                        });
+                            }
+                        } else {
+                            Log.e("FirestoreRepo", "Error getting documents: ", task.getException());
+                        }
+                    });
+
+        } catch (Exception e) {
+            Log.e("FirestoreRepo", "Error updating user", e);
+        }
+    }
+
     public void getUsers(LangShareUser user, UserFeedCallback callback) {
         try {
             Log.i("FirestoreRepo", "Getting users");
@@ -134,6 +164,14 @@ public class FirebaseFirestoreRepository {
         } catch (Exception e) {
             Log.e("FirestoreRepo", "Error fetching users", e);
         }
+    }
+
+    public void addConversationToHistory(String userId, String conversationId) {
+        usersCollection
+                .document(userId)
+                .update("chat_history", FieldValue.arrayUnion(conversationId))
+                .addOnSuccessListener(aVoid -> Log.i("FirestoreRepo", "Conversation added to user's chat history"))
+                .addOnFailureListener(e -> Log.e("FirestoreRepo", "Error adding conversation to user's chat history", e));
     }
 
 }

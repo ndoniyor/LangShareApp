@@ -18,8 +18,9 @@ public class LangShareUser {
     private LocalDate createdAt;
     private List<String> languagesLearning;
     private List<String> languagesKnown;
+    private List<String> chatHistory;
 
-    public LangShareUser(String authId, String fullName, String email, String bio, LocalDate dob, LocalDate createdAt, List<String> languagesLearning, List<String> languagesKnown) {
+    public LangShareUser(String authId, String fullName, String email, String bio, LocalDate dob, LocalDate createdAt, List<String> languagesLearning, List<String> languagesKnown, List<String> chatHistory) {
         this.authId = authId;
         this.fullName = fullName;
         this.email = email;
@@ -28,6 +29,7 @@ public class LangShareUser {
         this.createdAt = createdAt;
         this.languagesLearning = languagesLearning;
         this.languagesKnown = languagesKnown;
+        this.chatHistory = chatHistory;
     }
 
     public static LangShareUser fromDocument(DocumentSnapshot document) {
@@ -40,7 +42,8 @@ public class LangShareUser {
                 LocalDate.parse(document.getString("dob")),
                 LocalDate.parse(document.getString("created_at")),
                 (List<String>) document.get("languages_learning"),
-                (List<String>) document.get("languages_known")
+                (List<String>) document.get("languages_known"),
+                (List<String>) document.get("chat_history")
 
         );
     }
@@ -117,6 +120,18 @@ public class LangShareUser {
         this.languagesKnown = languagesKnown;
     }
 
+    public List<String> getChatHistory() {
+        return chatHistory;
+    }
+
+    public void setChatHistory(List<String> chatHistory) {
+        this.chatHistory = chatHistory;
+    }
+
+    public void addChatHistory(String chatId) {
+        chatHistory.add(chatId);
+    }
+
     public Map toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("auth_id", authId);
@@ -127,6 +142,7 @@ public class LangShareUser {
         map.put("created_at", createdAt.toString());
         map.put("languages_learning", languagesLearning);
         map.put("languages_known", languagesKnown);
+        map.put("chat_history", chatHistory);
         return map;
     }
 }
